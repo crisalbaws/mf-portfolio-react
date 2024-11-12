@@ -1,19 +1,30 @@
-import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+import {
+  useNavigate,
+  HashRouter as Router,
+  Route,
+  Routes,
+} from "react-router-dom";
+import ProductList from "./Components/ProductList";
+import WeatherPage from "./Components/Weather";
+import CarTrackingMap from "./Components/CarTrackingMap";
+import { useEffect } from "react";
 
 function Default() {
-  return <h1>DEFAULT</h1>;
-}
-
-function Examples() {
-  return <h1>HOLA</h1>;
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/react/product/list");
+  }, [navigate]);
+  return <></>;
 }
 
 export default function Root(props) {
   return (
     <Router>
       <Routes>
-        <Route path="/react/examples" element={<Examples />} />
         <Route path="/react" element={<Default />} />
+        <Route path="/react/product/list" element={<ProductList />} />
+        <Route path="/react/weather" element={<WeatherPage />} />
+        <Route path="/react/tracking" element={<CarTrackingMap />} />
       </Routes>
     </Router>
   );
