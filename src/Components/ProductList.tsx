@@ -11,6 +11,7 @@ import {
   Modal,
   Button,
   TextField,
+  useMediaQuery,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -134,6 +135,22 @@ const ProductList: React.FC = () => {
 
     const imageExists = !imageError[product.id];
     const quantity = quantities[product.id] || 0;
+    const isSmallScreen = useMediaQuery("(max-width: 768px)");
+
+
+    const xs = {
+      width: "calc(100vw - 4rem)",
+      boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
+      borderRadius: "8px",
+      marginLeft: "2rem"
+    };
+    const xl = {
+      width: "100%",
+      boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
+      borderRadius: "8px",
+    }
+    const value = isSmallScreen ? xs : xl;
+
 
     return (
       <div
@@ -142,11 +159,7 @@ const ProductList: React.FC = () => {
       >
         <Card
           className="product-card"
-          style={{
-            width: "100%",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
-            borderRadius: "8px",
-          }}
+          style={value}
         >
           {imageExists ? (
             <CardMedia
@@ -164,7 +177,7 @@ const ProductList: React.FC = () => {
             </div>
           )}
           <CardContent className="card-content">
-            <Typography variant="h6" component="div">
+            <Typography style={{ fontSize: "1rem" }} component="div">
               {product.name}
             </Typography>
             <Typography variant="body2" color="text.secondary">
@@ -302,7 +315,8 @@ const ProductList: React.FC = () => {
         columnCount={columnCount}
         columnWidth={adjustedColumnWidth}
         rowCount={Math.ceil(products.length / columnCount)}
-        rowHeight={350}
+        rowHeight={280}
+        style={{ maxHeight: "85vh", overflow: "auto" }}
       >
         {renderCell}
       </Grid>
@@ -350,6 +364,7 @@ const ProductList: React.FC = () => {
             padding: "20px",
             maxHeight: "80vh",
             overflow: "auto",
+            maxWidth: "80vw",
           }}
         >
           <h2>Carrito de Compras</h2>
@@ -396,14 +411,14 @@ const ProductList: React.FC = () => {
               marginTop: "20px",
             }}
           >
-            <Button
+            {(Number(totalAmount.toFixed(2)) > 0) && <Button
               variant="outlined"
               color="secondary"
               onClick={handleClearCart}
               style={{ marginRight: "10px" }}
             >
-              Limpiar Carrito
-            </Button>
+              Borrar Carrito
+            </Button>}
             <Button
               variant="outlined"
               color="error"
@@ -412,9 +427,9 @@ const ProductList: React.FC = () => {
             >
               Cancelar
             </Button>
-            <Button variant="outlined" color="primary" onClick={handleCheckout}>
-              Proceder al Pago
-            </Button>
+            {(Number(totalAmount.toFixed(2)) > 0) && <Button variant="outlined" color="primary" onClick={handleCheckout}>
+              Pagar
+            </Button>}
           </div>
         </div>
       </Modal>
@@ -426,6 +441,7 @@ const ProductList: React.FC = () => {
             padding: "20px",
             maxHeight: "80vh",
             overflow: "auto",
+            maxWidth: "80vw",
           }}
         >
           <h2>Formulario de Pago</h2>

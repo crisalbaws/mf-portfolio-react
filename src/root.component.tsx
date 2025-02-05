@@ -8,7 +8,6 @@ import ProductList from "./Components/ProductList";
 import WeatherPage from "./Components/Weather";
 import CarTrackingMap from "./Components/CarTrackingMap";
 import { useEffect } from "react";
-
 function Default() {
   const navigate = useNavigate();
   useEffect(() => {

@@ -13,7 +13,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Button } from "@mui/material";
+import { Button, useMediaQuery } from "@mui/material";
 
 ChartJS.register(
   CategoryScale,
@@ -99,20 +99,45 @@ const WeatherComponent = () => {
     ],
   };
 
+  // Check if the screen width is small (less than 768px)
+  const isSmallScreen = useMediaQuery("(max-width: 768px)");
+
+  const xs = {
+    width: "calc(-5rem + 100vw)",
+    marginTop: "1rem",
+    marginLeft: "1.5rem",
+    borderRadius: "10px",
+    height: "calc(-9rem + 100vh)",
+    padding: "20px",
+    backgroundColor: "white",
+    fontFamily: "'Poppins', sans-serif",
+    overflow: "auto",
+  };
+  const xl = {
+    width: "calc(100vw - 9rem)",
+    marginTop: "2rem",
+    marginLeft: "1rem",
+    borderRadius: "10px",
+    height: "calc(100vh - 10rem)",
+    padding: "20px",
+    backgroundColor: "white",
+    fontFamily: "'Poppins', sans-serif",
+    overflow: "auto",
+  }
+  const value = isSmallScreen ? xs : xl;
+
   return (
     <div
-      style={{
-        height: "85vh",
-        padding: "10px",
-        overflow: "auto",
-        width: "100vw",
-        fontFamily: "sans-serif",
-      }}
+      style={value}
     >
-      <h2>
+      <h2 style={{ fontFamily: "'Poppins', sans-serif" }}>
         Clima actual en algunas ciudades de Latinoamérica
         <Button
-          style={{ marginLeft: "10px" }}
+          style={{
+            marginLeft: isSmallScreen ? "0px" : "10px",
+            marginTop: isSmallScreen ? "10px" : "0px",
+            fontFamily: "'Poppins', sans-serif",
+          }}
           variant="outlined"
           color="primary"
           onClick={handleReload}
@@ -121,13 +146,21 @@ const WeatherComponent = () => {
         </Button>
       </h2>
       {weatherData.length > 0 ? (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "20px",
+            flexDirection: isSmallScreen ? "column" : "row", // Use column for small screens and row for larger ones
+          }}
+        >
+          {/* Gráfico de Barras */}
           <div
             style={{
-              flex: "1 1 40%",
-              maxWidth: "45%",
+              flex: "1 1 100%", // 100% on small screens
+              maxWidth: isSmallScreen ? "100%" : "48%", // Full width on small screens, 48% on large
               overflow: "auto",
-              fontFamily: "sans-serif",
+              fontFamily: "'Poppins', sans-serif",
             }}
           >
             <h3>Gráfico de Barras</h3>
@@ -139,12 +172,14 @@ const WeatherComponent = () => {
               }}
             />
           </div>
+
+          {/* Gráfico de Líneas */}
           <div
             style={{
-              flex: "1 1 40%",
-              maxWidth: "45%",
+              flex: "1 1 100%",
+              maxWidth: isSmallScreen ? "100%" : "48%",
               overflow: "auto",
-              fontFamily: "sans-serif",
+              fontFamily: "'Poppins', sans-serif",
             }}
           >
             <h3>Gráfico de Líneas</h3>
@@ -156,12 +191,14 @@ const WeatherComponent = () => {
               }}
             />
           </div>
+
+          {/* Gráfico de Pastel */}
           <div
             style={{
-              flex: "1 1 40%",
-              maxWidth: "35%",
+              flex: "1 1 100%",
+              maxWidth: isSmallScreen ? "100%" : "48%",
               overflow: "auto",
-              fontFamily: "sans-serif",
+              fontFamily: "'Poppins', sans-serif",
             }}
           >
             <h3>Gráfico de Pastel</h3>
@@ -186,12 +223,14 @@ const WeatherComponent = () => {
               options={{ responsive: true }}
             />
           </div>
+
+          {/* Gráfico Radar */}
           <div
             style={{
-              flex: "1 1 40%",
-              maxWidth: "35%",
+              flex: "1 1 100%",
+              maxWidth: isSmallScreen ? "100%" : "48%",
               overflow: "auto",
-              fontFamily: "sans-serif",
+              fontFamily: "'Poppins', sans-serif",
             }}
           >
             <h3>Gráfico Radar</h3>
@@ -211,12 +250,14 @@ const WeatherComponent = () => {
               options={{ responsive: true }}
             />
           </div>
+
+          {/* Gráfico Polar */}
           <div
             style={{
-              flex: "1 1 40%",
-              maxWidth: "35%",
+              flex: "1 1 100%",
+              maxWidth: isSmallScreen ? "100%" : "48%",
               overflow: "auto",
-              fontFamily: "sans-serif",
+              fontFamily: "'Poppins', sans-serif",
             }}
           >
             <h3>Gráfico Polar</h3>
@@ -243,7 +284,7 @@ const WeatherComponent = () => {
           </div>
         </div>
       ) : (
-        <p style={{ fontFamily: "sans-serif" }}>Cargando...</p>
+        <p style={{ fontFamily: "'Poppins', sans-serif" }}>Cargando...</p>
       )}
     </div>
   );
